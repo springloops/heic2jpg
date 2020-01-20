@@ -1,0 +1,16 @@
+#!/bin/bash
+
+src=$1
+size=$(find $src -type f | grep heic | wc -l)
+
+for i in $(find $src -type f | grep heic)
+do
+	cnt=$[$cnt +1]
+	# prog $size $cnt
+	target=$(echo $i | sed 's/heic$/jpg/')
+	printf " $i convert to $target\n"
+	heif-convert -q 100 $i $target > /dev/null
+	printf "  [$cnt/$size]\r"
+done
+
+printf "\n=== finished ===\n"
